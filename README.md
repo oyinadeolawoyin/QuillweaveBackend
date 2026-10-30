@@ -2,7 +2,7 @@
 
 The server behind **Quillweave**, a website that helps writers set goals for their drafts, track their progress, sprint, and send each other encouragement cards.
 
-**Live site:** [quillweave.com.ng](https://quillweave.com.ng/) · **Frontend repo:** [Quillweave] (https://github.com/oyinadeolawoyin/Quillweave)
+**Live site:** [quillweave.com.ng](https://quillweave.com.ng/) · **Frontend repo:** [Quillweave](https://github.com/oyinadeolawoyin/Quillweave)
 
 ![Dashboard](./screenshots/dashboard.png)
 ![Mailbox](./screenshots/mailbox.png)
