@@ -138,7 +138,7 @@ async function signup(req, res) {
   }
 
   const { username, password, email, timezone, referralSource, projectType, timeOnProject, biggestBlock } = req.body
-console.log("proTy", projectType, "bigest", biggestBlock, "timepro", timeOnProject);
+
   try {
     const existingEmail = await authService.findUserByEmail(email);
     if (existingEmail) {

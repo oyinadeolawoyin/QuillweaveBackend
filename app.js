@@ -45,19 +45,19 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
   origin: process.env.ALLOWED_ORIGIN,
-  credentials: true, // needed because you use cookies for JWT
+  credentials: true, 
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 }));
 
 app.use(cookieParser());
 
-// const limiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, // max 100 requests per IP per 15 min
-//   message: { error: "Too many requests, slow down." }
-// });
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per IP per 15 min
+  message: { error: "Too many requests, slow down." }
+});
 
-// app.use("/api/", limiter); // applies to all your API routes
+app.use("/api/", limiter); 
 
 startDraftPlanReminderCron();
 startEventFinalizeCron();
@@ -81,7 +81,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/dictionary", dictionaryRoutes);
 app.use("/api/workspace", workspaceRoutes);
 app.use("/api/draftfolders", draftFolderRoutes);
-app.use("/api", shareRoutes); // /api/share/sprint/:id, /api/og/sprint-room/:id.png, /api/brag/upload, /api/share/brag/:id — no auth, see sharerroutes.js
+app.use("/api", shareRoutes); 
 app.use("/api/mailbox", mailboxRoutes);
 
 // Static host for uploaded brag-card images (uploadBragImage in
@@ -94,13 +94,13 @@ app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError || err.message === "Unsupported file type") {
     return res.status(400).json({ message: err.message });
   }
-  res.status(500).json({ message: err.message });
-});
 
-const server = http.createServer(app);
-initSocket(server);
+  console.error(err); // full details stay in Render logs
 
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+  res.status(500).json({
+    message:
+      process.env.NODE_ENV === "production"
+        ? "Something went wrong. Please try again."
+        : err.message,
+  });
 });
