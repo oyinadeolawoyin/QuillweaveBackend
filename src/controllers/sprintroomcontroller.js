@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 const sprintRoomService = require("../services/sprintroomservice");
 
 async function fetchRoom(req, res) {
@@ -109,7 +110,7 @@ async function deleteMessage(req, res) {
   } catch (error) {
     console.error("Delete sprint room message error:", error);
     const status = error.message === "Not authorized to delete this message" ? 403 : 500;
-    res.status(status).json({ message: error.message || "Something went wrong. Please try again later." });
+    sendError(res, error, status);
   }
 }
 

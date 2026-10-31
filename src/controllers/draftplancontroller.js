@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 // src/controllers/draftPlanController.js
 const draftPlanService = require("../services/draftplanservice");
 const followService    = require("../services/followService");
@@ -33,7 +34,7 @@ async function getMyPlans(req, res) {
     const plans = await draftPlanService.getMyPlans(req.user.id);
     res.json(plans);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -56,7 +57,7 @@ async function createPlan(req, res) {
       })
       .catch(() => {});
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -65,7 +66,7 @@ async function getMyPlan(req, res) {
     const result = await draftPlanService.getPlanProgress(req.user.id, planIdFrom(req));
     res.json(result);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -74,7 +75,7 @@ async function updatePlan(req, res) {
     const plan = await draftPlanService.updatePlan(req.user.id, planIdFrom(req), req.body);
     res.json(plan);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -83,7 +84,7 @@ async function deletePlan(req, res) {
     const result = await draftPlanService.deletePlan(req.user.id, planIdFrom(req));
     res.json(result);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -97,8 +98,7 @@ async function uploadMoodboardImage(req, res) {
     const url = await uploadFile(req.file);
     res.status(201).json({ url });
   } catch (err) {
-    console.error("Moodboard image upload error:", err);
-    res.status(500).json({ message: err.message ?? "Couldn't upload that image." });
+    sendError(res, err);
   }
 }
 
@@ -159,7 +159,7 @@ async function logProgress(req, res) {
       dictionary,
     });
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -170,7 +170,7 @@ async function planDay(req, res) {
     const entry = await draftPlanService.planDay(req.user.id, planIdFrom(req), req.body);
     res.status(201).json(entry);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -187,7 +187,7 @@ async function openBonusQuest(req, res) {
     const quest = await draftPlanService.openBonusQuest(req.user.id, planIdFrom(req), req.body);
     res.status(201).json(quest);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -196,7 +196,7 @@ async function pickBonusQuestPrompt(req, res) {
     const quest = await draftPlanService.pickBonusQuestPrompt(req.user.id, planIdFrom(req), req.body);
     res.status(200).json(quest);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -205,7 +205,7 @@ async function declineBonusQuest(req, res) {
     const quest = await draftPlanService.declineBonusQuest(req.user.id, planIdFrom(req), req.body);
     res.status(200).json(quest);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -214,7 +214,7 @@ async function getTodaysBonusQuest(req, res) {
     const quest = await draftPlanService.getTodaysBonusQuest(req.user.id, planIdFrom(req));
     res.json(quest);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -223,7 +223,7 @@ async function logBonusQuestProgress(req, res) {
     const result = await draftPlanService.logBonusQuestProgress(req.user.id, planIdFrom(req), req.body);
     res.status(201).json(result);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -234,7 +234,7 @@ async function getPlanHistory(req, res) {
     const history = await draftPlanService.getPlanHistory(req.user.id, planIdFrom(req));
     res.json(history);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -245,7 +245,7 @@ async function getTimeline(req, res) {
     const timeline = await draftPlanService.getPlanTimeline(req.user.id, planIdFrom(req));
     res.json(timeline);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 

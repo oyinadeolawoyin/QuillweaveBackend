@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 // src/controllers/dictionaryController.js
 const dictionaryService = require("../services/dictionaryservice");
 
@@ -15,7 +16,7 @@ async function addEntry(req, res) {
     const entry = await dictionaryService.addEntry(req.user.id, req.body);
     res.status(201).json(entry);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -28,7 +29,7 @@ async function deleteEntry(req, res) {
     const result  = await dictionaryService.deleteEntry(req.user.id, entryId);
     res.json(result);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -42,7 +43,7 @@ async function getDictionary(req, res) {
     });
     res.json(entries);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 

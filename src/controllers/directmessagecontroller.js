@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 // src/controllers/directMessageController.js
 const dmService = require("../services/directmessageservice");
 const { notifyUser } = require("../services/notificationService");
@@ -21,7 +22,7 @@ async function listConversations(req, res) {
     const conversations = await dmService.listConversations(req.user.id);
     res.json(conversations);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -36,7 +37,7 @@ async function getOrCreateConversation(req, res) {
     const conversation = await dmService.getOrCreateConversation(req.user.id, otherUserId);
     res.json(conversation);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -55,7 +56,7 @@ async function getMessages(req, res) {
     const result = await dmService.getMessages(req.user.id, conversationId, { beforeId });
     res.json(result);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -95,7 +96,7 @@ async function sendMessage(req, res) {
       ).catch(() => {});
     }
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -109,7 +110,7 @@ async function deleteMessage(req, res) {
     const result = await dmService.deleteMessage(req.user.id, messageId);
     res.json(result);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -126,7 +127,7 @@ async function markConversationRead(req, res) {
     const result = await dmService.markConversationRead(req.user.id, conversationId);
     res.json(result);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
  

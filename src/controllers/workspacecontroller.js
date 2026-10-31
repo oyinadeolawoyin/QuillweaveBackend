@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 // src/controllers/workspaceController.js
 const workspaceService = require("../services/workspaceservice");
 
@@ -6,7 +7,7 @@ async function getWeeklyTargetFeed(req, res) {
     const writers = await workspaceService.getWritersWorkingTowardWeeklyTarget(req.user?.id ?? null);
     res.json(writers);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -15,7 +16,7 @@ async function getDraftPlanFeed(req, res) {
     const writers = await workspaceService.getDraftPlanFeed(req.user?.id ?? null);
     res.json(writers);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -24,7 +25,7 @@ async function getWorkspaceFeed(req, res) {
     const members = await workspaceService.getWorkspaceMembers(req.user?.id ?? null);
     res.json(members);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -33,7 +34,7 @@ async function getWeeklyWinners(req, res) {
     const winners = await workspaceService.getWeeklyGoalCompleters(req.user?.id ?? null);
     res.json(winners);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -42,7 +43,7 @@ async function getFinishedDraftsFeed(req, res) {
     const finished = await workspaceService.getRecentlyFinishedDraftPlans(req.user?.id ?? null);
     res.json(finished);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -51,7 +52,7 @@ async function getTopStreaks(req, res) {
     const leaders = await workspaceService.getTopStreakLeaderboard(req.user?.id ?? null);
     res.json(leaders);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -60,7 +61,7 @@ async function getMyStats(req, res) {
     const stats = await workspaceService.getMyWorkspaceStats(req.user.id);
     res.json(stats);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -73,7 +74,7 @@ async function getMyWeeklyGoalPlan(req, res) {
     const plan = await workspaceService.getMyWeeklyGoalPlan(req.user.id);
     res.json(plan);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -84,7 +85,7 @@ async function getMyActivitySeries(req, res) {
     const series = await workspaceService.getMyActivitySeries(req.user.id, req.query.days);
     res.json(series);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -95,7 +96,7 @@ async function sendCard(req, res) {
     const result = await workspaceService.sendEncouragementCard(req.user, toUserId, cardType);
     res.status(201).json(result);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    sendError(res, err, 400);
   }
 }
 
@@ -104,7 +105,7 @@ async function getMyProfile(req, res) {
     const profile = await workspaceService.getWorkspaceProfile(req.user.id);
     res.json(profile);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -113,7 +114,7 @@ async function updateMyProfile(req, res) {
     const profile = await workspaceService.updateWorkspaceProfile(req.user.id, req.body);
     res.json(profile);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    sendError(res, err, 400);
   }
 }
 

@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 // src/controllers/reportController.js
 const reportService  = require("../services/reportService");
 const { notifyUser } = require("../services/notificationService");
@@ -51,7 +52,7 @@ async function submitReport(req, res) {
 
     res.status(201).json({ message: "Report submitted successfully.", reportId: report.id });
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -69,7 +70,7 @@ async function checkMyReport(req, res) {
     });
     res.json({ reported });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -89,7 +90,7 @@ async function listReports(req, res) {
     });
     res.json(result);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -104,7 +105,7 @@ async function getReport(req, res) {
     const report = await reportService.getReportById(Number(req.params.reportId));
     res.json(report);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -151,7 +152,7 @@ async function resolveReport(req, res) {
 
     res.json(report);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 

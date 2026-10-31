@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 const sprintService  = require("../services/sprintservice");
 const followService  = require("../services/followService");
 const { notifyUser } = require("../services/notificationService");
@@ -55,7 +56,7 @@ async function checkinSprint(req, res) {
       : error.message === "Not your sprint" ? 403
       : error.message === "Sprint already checked in" ? 409
       : 500;
-    res.status(status).json({ message: error.message || "Something went wrong. Please try again later." });
+    sendError(res, error, status);
   }
 }
 

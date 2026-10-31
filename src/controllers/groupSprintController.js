@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 const groupSprintService = require("../services/groupSprintService");
 const { notifyUser } = require('../services/notificationService');
 const { AccessToken, TrackSource } = require("livekit-server-sdk");
@@ -170,7 +171,7 @@ async function rebaselineSprint(req, res) {
     const status = error.message === "Sprint not found" ? 404
       : error.message === "Sprint is no longer active" ? 409
       : 500;
-    res.status(status).json({ message: error.message || "Something went wrong. Please try again later." });
+    sendError(res, error, status);
   }
 }
 

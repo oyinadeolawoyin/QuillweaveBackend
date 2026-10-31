@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 // src/feedback/feedback.controller.js
 const feedbackService     = require("../services/feedbackService");
 const pointsService       = require("../services/pointService");
@@ -26,7 +27,7 @@ async function getMyWallet(req, res) {
     ]);
     res.json({ ...wallet, critiqueGiven });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -37,7 +38,7 @@ async function getUserWallet(req, res) {
     const { postingBalance: _hidden, ...pub } = wallet;
     res.json(pub);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -62,7 +63,7 @@ async function createSubmission(req, res) {
 
     res.status(201).json(submission);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -78,7 +79,7 @@ async function getUserSubmissions(req, res) {
     });
     res.json(result);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -94,7 +95,7 @@ async function getSubmissions(req, res) {
     });
     res.json(result);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -106,7 +107,7 @@ async function getSubmissionById(req, res) {
     );
     res.json(submission);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -119,7 +120,7 @@ async function updateSubmission(req, res) {
     );
     res.json(submission);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -131,7 +132,7 @@ async function deleteSubmission(req, res) {
     );
     res.json(result);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -141,7 +142,7 @@ async function getSpotlight(req, res) {
     // console.log("spo", submissions);
     res.json(submissions);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -155,7 +156,7 @@ async function getQueue(req, res) {
     }); console.log("que", result);
     res.json(result);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -169,7 +170,7 @@ async function getArchive(req, res) {
     });
     res.json(result);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -178,7 +179,7 @@ async function getArchiveGenres(req, res) {
     const genres = await feedbackService.getArchiveGenres();
     res.json(genres);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -187,7 +188,7 @@ async function getQueueGenres(req, res) {
     const genres = await feedbackService.getQueueGenres();
     res.json(genres);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -215,7 +216,7 @@ async function createResponse(req, res) {
 
     res.status(201).json(responseData);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -228,7 +229,7 @@ async function updateResponse(req, res) {
     );
     res.json(response);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -273,7 +274,7 @@ async function toggleResponseUpvote(req, res) {
 
     res.json({ upvoted: result.upvoted });
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -298,7 +299,7 @@ async function createParagraphComment(req, res) {
 
     res.status(201).json(commentData);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -314,7 +315,7 @@ async function getParagraphComments(req, res) {
     );
     res.json(comments);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 
@@ -327,7 +328,7 @@ async function updateParagraphComment(req, res) {
     );
     res.json(comment);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -339,7 +340,7 @@ async function deleteParagraphComment(req, res) {
     );
     res.json(result);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -384,7 +385,7 @@ async function toggleParagraphCommentUpvote(req, res) {
 
     res.json({ upvoted: result.upvoted, awarded: result.awarded, pointsAwarded: result.pointsAwarded });
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -408,7 +409,7 @@ async function createParagraphCommentReply(req, res) {
 
     res.status(201).json(replyData);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -420,7 +421,7 @@ async function deleteParagraphCommentReply(req, res) {
     );
     res.json(result);
   } catch (err) {
-    res.status(errStatus(err.message)).json({ message: err.message });
+    sendError(res, err, errStatus(err.message));
   }
 }
 
@@ -433,7 +434,7 @@ async function getResponsesByUser(req, res) {
     );
     res.json(result);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendError(res, err);
   }
 }
 

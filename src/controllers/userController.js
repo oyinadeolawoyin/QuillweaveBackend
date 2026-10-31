@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 require("dotenv").config();
 const userService = require("../services/userService");
 const fileUploader = require("../utilis/fileUploader");
@@ -107,7 +108,7 @@ async function updateUser(req, res) {
 //     res.status(200).json({ users });
 //   } catch (error) {
 //     console.error("Fetch users error:", error);
-//     res.status(500).json({ message: error.message || "Something went wrong. Please try again." });
+//     sendError(res, error);
 //   }
 // }
 
@@ -118,7 +119,7 @@ async function fetchUser(req, res) {
     res.status(200).json({ user });
   } catch (error) {
     console.error("Fetch user error:", error);
-    res.status(500).json({ message: error.message || "Something went wrong. Please try again." });
+    sendError(res, error);
   }
 }
 
@@ -158,8 +159,7 @@ async function deleteUser(req, res) {
 
     res.status(200).json({ message: "Your account has been deleted." });
   } catch (error) {
-    console.error("Delete user error:", error);
-    res.status(500).json({ message: error.message || "Something went wrong. Please try again." });
+    sendError(res, error);
   }
 }
 
@@ -169,8 +169,7 @@ async function fetchFoundingWriters(req, res) {
     const users = await userService.fetchFoundingWriters(viewerId);
     res.status(200).json({ users });
   } catch (error) {
-    console.error("Fetch founding writers error:", error);
-    res.status(500).json({ message: error.message || "Something went wrong. Please try again." });
+    sendError(res, error);
   }
 }
 
@@ -188,7 +187,7 @@ async function blockUser(req, res) {
   } catch (error) {
     console.error("Block user error:", error);
     const status = error.message === "User not found." ? 404 : 400;
-    res.status(status).json({ message: error.message || "Something went wrong. Please try again." });
+    sendError(res, error, status);
   }
 }
 
@@ -206,7 +205,7 @@ async function unblockUser(req, res) {
   } catch (error) {
     console.error("Unblock user error:", error);
     const status = error.message === "Block not found." ? 404 : 400;
-    res.status(status).json({ message: error.message || "Something went wrong. Please try again." });
+    sendError(res, error, status);
   }
 }
 
@@ -222,7 +221,7 @@ async function getBlockedUsers(req, res) {
     res.status(200).json({ users });
   } catch (error) {
     console.error("Get blocked users error:", error);
-    res.status(500).json({ message: error.message || "Something went wrong. Please try again." });
+    sendError(res, error);
   }
 }
 

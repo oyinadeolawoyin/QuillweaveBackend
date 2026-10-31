@@ -1,3 +1,4 @@
+const { sendError } = require("../utilis/sendError");
 // src/controllers/mailboxcontroller.js
 const mailboxService = require("../services/mailboxService");
 const { notifyUser } = require("../services/notificationService");
@@ -96,7 +97,7 @@ async function markCardRead(req, res) {
     const status = error.message === "Not authorized to read this card" ? 403
       : error.message === "Card not found" ? 404
       : 500;
-    res.status(status).json({ message: error.message || "Something went wrong. Please try again later." });
+    sendError(res, error, status);
   }
 }
 
